@@ -1,0 +1,110 @@
+/* Page */
+.settings-page {
+  background: #f1f3f6;
+  min-height: 100vh;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Card */
+.settings-card {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+/* Header */
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.settings-header h2 {
+  font-size: 18px;
+}
+
+/* Form */
+.settings-form {
+  margin-top: 10px;
+}
+
+/* Fields */
+.field {
+  margin-bottom: 15px;
+}
+
+.field label {
+  font-size: 13px;
+  color: gray;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.field input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+}
+
+/* Readonly */
+.field input[readonly] {
+  color: #555;
+}
+
+/* Buttons */
+.edit-btn,
+.save-btn {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+}
+
+.edit-btn {
+  background: #2874f0; /* Flipkart blue */
+}
+
+.save-btn {
+  background: #388e3c;
+}
+
+.password-section{
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+.password-section h3{
+  font-size: 16px;
+  margin-bottom: 10px;
+
+}
+/* ---------------- RESPONSIVE ---------------- */
+
+/* Tablet */
+@media (min-width: 600px) {
+  .settings-card {
+    padding: 25px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .settings-page {
+    align-items: center;
+  }
+
+  .settings-card {
+    max-width: 600px;
+  }
+}

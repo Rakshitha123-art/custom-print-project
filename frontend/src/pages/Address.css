@@ -1,0 +1,116 @@
+.address-page {
+  padding: 20px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.address-page h2 {
+  margin-bottom: 10px;
+}
+
+/* Add Button */
+.add-btn {
+  background: rgb(113, 113, 190);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+/* Form */
+.address-form {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.address-form input,
+.address-form textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.save-btn {
+  background: #28a745;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Address Cards */
+.address-list {
+  display: grid;
+  gap: 15px;
+}
+
+.address-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.address-card h4 {
+  margin-bottom: 5px;
+}
+
+/* Buttons */
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.actions .delete {
+  background: rgb(123, 123, 225);
+  color: white;
+}
+
+/* Empty */
+.empty {
+  text-align: center;
+  color: gray;
+}
+.address-card.selected {
+  border: 2px solid green;
+  background: #f0fff0;
+}
+
+.order-btn {
+  margin-top: 20px;
+  padding: 10px;
+  background: rgb(82, 82, 138);
+  color: white;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+
+/* Tablet */
+@media (min-width: 600px) {
+  .address-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .address-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

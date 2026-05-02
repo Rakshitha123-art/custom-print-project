@@ -1,0 +1,199 @@
+/* ================= SAFE SCOPED RESET ================= */
+.admin-layout * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================= LAYOUT ================= */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f3f4f6;
+}
+
+/* ================= SIDEBAR ================= */
+.admin-layout .sidebar {
+  width: 240px;
+  background: blueviolet;
+  color: black;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  transition: 0.3s;
+}
+
+.admin-layout .sidebar h2 {
+  margin-bottom: 25px;
+  font-size: 20px;
+}
+
+.admin-layout .sidebar ul {
+  list-style: none;
+}
+
+.admin-layout .sidebar li {
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin-layout .sidebar li:hover {
+  background: white;
+}
+
+.admin-layout .logout {
+  color: #ff4d4d;
+}
+
+/* ================= MAIN ================= */
+.admin-layout .main {
+  margin-left: 240px;
+  width: 100%;
+  padding: 20px;
+}
+
+/* ================= TOPBAR ================= */
+.admin-layout .topbar {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ================= CARDS ================= */
+.admin-layout .cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.admin-layout .card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ================= SECTION ================= */
+.admin-layout .section {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ================= FORM ================= */
+.admin-layout .form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.admin-layout .form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+}
+
+.admin-layout .form button {
+  padding: 10px 15px;
+  background: #4f46e5;
+  color: black;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ================= TABLE ================= */
+.admin-layout .table {
+  margin-top: 15px;
+}
+
+.admin-layout .row {
+  display: grid;
+  grid-template-columns: 60px 1fr 120px 80px;
+  gap: 10px;
+  padding: 12px;
+  background: #f9fafb;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  align-items: center;
+}
+
+.admin-layout .row button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 6px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* ================= ERROR ================= */
+.admin-layout .error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .admin-layout .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-layout .form input {
+    width: 180px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-layout .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .admin-layout .main {
+    margin-left: 0;
+  }
+
+  .admin-layout .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-layout .form {
+    flex-direction: column;
+  }
+
+  .admin-layout .form input {
+    width: 100%;
+  }
+
+  .admin-layout .row {
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .admin-layout .row span:nth-child(3),
+  .admin-layout .row button {
+    grid-column: span 2;
+  }
+}
