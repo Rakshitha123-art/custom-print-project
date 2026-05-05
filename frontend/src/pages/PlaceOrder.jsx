@@ -43,6 +43,52 @@ export default function PlaceOrder() {
       alert("Invalid coupon");
     }
   };
+  const handleOnlinePayment = async () => {
+  try {
+    // 1️⃣ Create order from backend
+    const { data: order } = await api.post("/api/payments/create-order", {
+      amount: Number(finalTotal),
+      userId: localStorage.getItem("userId"),
+    });
+
+    const options = {
+key: "rzp_test_SlN4FtdOsKcGOU",
+      amount: order.amount,
+      currency: "INR",
+      name: "Custom Print Store",
+      description: "Order Payment",
+      order_id: order.id,
+
+      handler: async function (response) {
+        // 2️⃣ Verify payment
+        const res = await api.post("/api/payments/verify", response);
+
+        if (res.data.success) {
+          // ✅ after payment → place order
+          await handleOrder();
+        } else {
+          alert("Payment failed");
+        }
+      },
+
+      prefill: {
+        name: formData.name,
+        contact: formData.phone,
+      },
+
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+
+  } catch (err) {
+    console.log(err);
+    alert("Payment failed");
+  }
+};
 
   // 🚀 PLACE ORDER
   const handleOrder = async () => {
@@ -227,11 +273,17 @@ export default function PlaceOrder() {
               </div>
 
               <button
-                onClick={handleOrder}
-                className="w-full bg-green-600 text-white py-3 rounded-xl text-lg"
-              >
-                Place Order 🚀
-              </button>
+  onClick={() => {
+    if (formData.payment === "COD") {
+      handleOrder();
+    } else {
+      handleOnlinePayment();
+    }
+  }}
+  className="w-full bg-green-600 text-white py-3 rounded-xl text-lg"
+>
+  Place Order 🚀
+</button>
 
             </motion.div>
           )}

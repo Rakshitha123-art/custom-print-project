@@ -24,9 +24,6 @@ function AdminPayments() {
   const fetchPayments = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/payments");
-      console.log("PAYMENTS:", res.data);
-
-      // ✅ Ensure array
       setPayments(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.log(err);
@@ -36,13 +33,13 @@ function AdminPayments() {
     }
   };
 
-  // ✅ SAFE DATA
+  // ✅ Safe array
   const safePayments = Array.isArray(payments) ? payments : [];
 
-  // 🔍 Filter + Search
+  // 🔍 Search + Filter
   const filtered = safePayments.filter((p) => {
     const matchSearch =
-      p.paymentId?.toLowerCase().includes(search.toLowerCase());
+      (p.paymentId || "").toLowerCase().includes(search.toLowerCase());
 
     const matchFilter =
       filter === "all" ? true : p.status === filter;
@@ -50,43 +47,47 @@ function AdminPayments() {
     return matchSearch && matchFilter;
   });
 
-  // 💰 Total Revenue
+  // 💰 Revenue
   const totalRevenue = safePayments
     .filter((p) => p.status === "success")
     .reduce((acc, curr) => acc + Number(curr.amount || 0), 0);
 
-  // 📊 Chart Data
+  // 📊 Chart Data (sorted)
   const chartData = Object.values(
     safePayments.reduce((acc, p) => {
-      const month = p.createdAt
-        ? new Date(p.createdAt).toLocaleString("default", {
-            month: "short",
-          })
-        : "N/A";
+      if (!p.createdAt) return acc;
 
-      if (!acc[month]) {
-        acc[month] = { name: month, revenue: 0 };
+      const date = new Date(p.createdAt);
+      const monthIndex = date.getMonth();
+      const monthName = date.toLocaleString("default", { month: "short" });
+
+      if (!acc[monthIndex]) {
+        acc[monthIndex] = {
+          name: monthName,
+          revenue: 0,
+          index: monthIndex,
+        };
       }
 
       if (p.status === "success") {
-        acc[month].revenue += Number(p.amount || 0);
+        acc[monthIndex].revenue += Number(p.amount || 0);
       }
 
       return acc;
     }, {})
-  );
+  ).sort((a, b) => a.index - b.index);
 
-  // 🔄 LOADING UI
+  // 🔄 Loading
   if (loading) {
     return <div className="p-6 text-lg">Loading payments...</div>;
   }
 
-  // ❌ ERROR UI
+  // ❌ Error
   if (error) {
     return <div className="p-6 text-red-500">{error}</div>;
   }
 
-  // 📭 EMPTY UI
+  // 📭 Empty
   if (safePayments.length === 0) {
     return <div className="p-6 text-gray-500">No payments found</div>;
   }
@@ -97,7 +98,22 @@ function AdminPayments() {
       {/* HEADER */}
       <h2 className="text-2xl font-bold mb-6">💳 Payments Dashboard</h2>
 
-      {/* 💰 Revenue Card */}
+      {/* 🔥 SUMMARY CARDS */}
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="bg-blue-500 text-white p-4 rounded-xl shadow">
+          Total Payments: {safePayments.length}
+        </div>
+
+        <div className="bg-green-500 text-white p-4 rounded-xl shadow">
+          Success: {safePayments.filter(p => p.status === "success").length}
+        </div>
+
+        <div className="bg-yellow-500 text-white p-4 rounded-xl shadow">
+          Pending: {safePayments.filter(p => p.status === "pending").length}
+        </div>
+      </div>
+
+      {/* 💰 Revenue */}
       <div className="bg-green-500 text-white p-6 rounded-2xl shadow mb-6">
         <p className="text-sm">Total Revenue</p>
         <h2 className="text-3xl font-bold">₹{totalRevenue}</h2>
@@ -137,7 +153,7 @@ function AdminPayments() {
         >
           <option value="all">All</option>
           <option value="success">Success</option>
-          <option value="failed">Failed</option>
+          <option value="pending">Pending</option>
         </select>
       </div>
 
@@ -145,7 +161,7 @@ function AdminPayments() {
       <div className="bg-white rounded-2xl shadow overflow-hidden">
 
         <div className="grid grid-cols-4 bg-gray-50 px-6 py-3 text-xs font-semibold text-gray-600">
-          <span>ID</span>
+          <span>Payment ID</span>
           <span>Amount</span>
           <span>Status</span>
           <span>Date</span>
@@ -156,7 +172,8 @@ function AdminPayments() {
             key={p._id}
             className="grid grid-cols-4 px-6 py-3 border-b text-sm hover:bg-gray-50"
           >
-            <span>{p.paymentId || "N/A"}</span>
+            <span>{p.paymentId || p.razorpay_payment_id || "N/A"}</span>
+
             <span>₹{p.amount || 0}</span>
 
             <span>
@@ -164,6 +181,8 @@ function AdminPayments() {
                 className={`px-2 py-1 rounded text-xs ${
                   p.status === "success"
                     ? "bg-green-100 text-green-600"
+                    : p.status === "pending"
+                    ? "bg-yellow-100 text-yellow-600"
                     : "bg-red-100 text-red-600"
                 }`}
               >

@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+dotenv.config();
+import Razorpay from "razorpay";
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/product.js";
 import userRoutes from "./routes/userRoutes.js"; // ✅ ADD THIS
@@ -16,7 +18,7 @@ import paymentRoutes from "./routes/paymentRoutes.js"; // ✅ ADD THIS
 import path from "path"; // ✅ for image deletion
 import notificationRoutes from "./routes/notification.js";
 
-dotenv.config();
+
 connectDB();
 
 const app = express();
